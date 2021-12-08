@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 exports.register = async function(req, res, next) {
-    const{username,email,password} = req.body;
+    const{firstname,lastname,email,password} = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
@@ -12,7 +12,7 @@ exports.register = async function(req, res, next) {
         if (password.length <6)
             return res.status(400).json({msg: "password must at least 6 "})
         const user= await User.create({
-            username, email, password: passwordHash
+            firstname,lastname, email, password: passwordHash
         });
 
         const token = sendToken(user);
